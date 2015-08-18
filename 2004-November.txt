@@ -1,0 +1,91 @@
+From esr at snark.thyrsus.com  Mon Nov  1 23:31:02 2004
+From: esr at snark.thyrsus.com (Eric S. Raymond)
+Date: Mon, 1 Nov 2004 17:31:02 -0500
+Subject: [Sst-users] State of the Super Star Trek project
+Message-ID: <200411012231.iA1MV2UE020794@snark.thyrsus.com>
+
+(Submitted for archival purposes -- I'm not sure anyone has joined
+this list yet.)
+
+I've just created an actual project website, which includes a browseable
+HTMLized version of the SST.DOC file.  See <http://sst.berlios.de/>.
+
+Here's what I've done to the code so far:
+
+  * I converted the flat-text SST.DOC file to XML-Docbook so it can be
+    webbed.
+
+  * The command-help code needed a rewrite because the flat-text form of
+    the documentation is now generated from XML and doesn't have the 
+    easily recognizable section delimiter it used to .  I wrote a
+    script to filter that flat-text form into an sst.doc that's easy
+    to parse for command descriptions, and changed some logic in sst.c
+    to match.  
+
+  * I've cleaned up a lot of grubby FORTRANisms in the code internals --
+    used sizeof(), replaced magic numeric constants with #defines,
+    that sort of thing.
+
+  * I fixed a surprising number of typos in the code and documentation.
+
+  * All the game state now lives in one big structure that can be
+    written to and read from disk as one blob.  The write gives it an
+    an identifiable magic number and the thaw logic checks for same. 
+
+Here's the current to-do list:
+
+* Remove the assumption that sst.doc lives in the current directory.
+
+* Have it read the value of LINES rather than assumong a 24-line terminal.
+
+* Do a manual page.
+
+* Improve the internal pager.
+
+* Yes-no confirmations and "press-to-continue" situations should print
+  a recognizable standard prompt.
+
+* A real release, with downloadable tarballs and RPMs and so forth.
+
+* The time-machine switch.  Specify a year, get only the features that
+  then existed.  (This would be partly so people can try the original
+  non-"super" version Matuszek and Reynolds wrote.)
+
+  Dave Matuszek tells me that SRSCAN, MOVE, PHASERS, CALL, STATUS,
+  IMPULSE, PHOTONS, ABANDON, LRSCAN, WARP, SHIELDS, DESTRUCT CHART,
+  REST, DOCK, QUIT, and DAMAGE were in the original non-"super" version.
+
+* Write a curses-based interface.  Shouldn't be hard, all output goes through
+  prout/proutn/prouts so we can split the screen into two panes with the upper
+  one for the charts.
+
+Dave, did I get that non-Super command list right?   The full list of
+commands is:
+
+   SRSCAN    MOVE      PHASERS   CALL
+   STATUS    IMPULSE   PHOTONS   ABANDON
+   LRSCAN    WARP      SHIELDS   DESTRUCT
+   CHART     REST      DOCK      QUIT
+   DAMAGES   REPORT    SENSORS   ORBIT
+   TRANSPORT MINE      CRYSTALS  SHUTTLE
+   PLANETS   REQUEST   DEATHRAY  FREEZE
+   COMPUTER  EMEXIT    PROBE     COMMANDS
+   HELP
+
+Also: did your version have
+
+      Romulans
+      Commanders
+      Super-commanders
+
+?
+-- 
+		<a href="http://www.catb.org/~esr/">Eric S. Raymond</a>
+
+There's a tendency today to absolve individuals of
+moral responsibility and treat them as victims of
+social circumstance.  You buy that, you pay with your
+soul.
+		-Tom Robbins, Still Life with Woodpecker
+
+
